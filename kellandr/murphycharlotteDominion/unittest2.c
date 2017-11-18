@@ -99,7 +99,7 @@ int main(void){
 	testCount += 11 + 6 * numPlayers;
 	
 //INVALID INPUT
-	if(NOISY_TEST){ 
+/*	if(NOISY_TEST){ 
 		printf("TESTING INVALID INPUT\n Testing drawCard() on player %d, deck of size %d, discard of size %d\n", 
 			p, G.deckCount[p], G.discardCount[p]);
 	}
@@ -110,7 +110,7 @@ int main(void){
 	failures += assertGameState(p, numPlayers, &pre, &G);	
 	testCount += 11 + 6 * numPlayers;
 
-
+*/
 //print results
 	printf("%d Total Checks: %d Failures, %d Passes\n\n", testCount, failures, testCount-failures);
 
