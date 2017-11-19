@@ -89,7 +89,7 @@ int main(void){
 			qsort(pre.hand[p], handCount, sizeof(int), comp);
 
 			if (assertGameState(&pre, &G)){
-				failures++
+				failures++;
 			}
 			testCount++;
 
@@ -109,7 +109,7 @@ int main(void){
 			qsort(pre.hand[p], handCount, sizeof(int), comp);
 
 			if (assertGameState(&pre, &G)){
-				failures++
+				failures++;
 			}
 			testCount++;
 
