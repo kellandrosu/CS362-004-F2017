@@ -2,6 +2,9 @@ CFLAGS = -Wall -fpic -coverage -lm
 
 default: randomtestadventurer randomtestcard1 randomtestcard2 unittestresults.out
 
+test: test.c dominion.o rngs.o
+	gcc -o test -g test.c dominion.o rngs.o $(CFLAGS)
+
 randomtestadventurer: randomtestadventurer.c dominion.o rngs.o
 	gcc -o randomtestadventurer -g randomtestadventurer.c dominion.o rngs.o $(CFLAGS)
 	./randomtestadventurer >> randomtestadventurer.out
