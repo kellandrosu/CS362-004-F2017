@@ -1,4 +1,4 @@
-CFLAGS = -Wall -fpic -coverage -lm
+CFLAGS = -Wall -fpic -coverage -lm -std=c99
 
 default: randomtestadventurer randomtestcard1 randomtestcard2 
 
