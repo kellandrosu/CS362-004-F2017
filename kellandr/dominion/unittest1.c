@@ -83,10 +83,10 @@ printf ("TESTING discardCard():\n");
 		card = G.hand[p][handCount/2];
 		discardCard( handCount/2, p, &G, 0);
 		//remove card from hand copy
-		hand[handCount/2] = hand[handCount-1];
-		handCount--;
-		discard[discardCount] = card;
-		discardCount++;
+		pre.hand[p][handCount/2] = pre.hand[p][ pre.handCount[p]-1 ];
+		pre.handCount[p] -= 1;
+		pre.discard[p][ pre.discardCount[p] ] = card;
+		pre.discardCount[p] += 1;
 
 		//sort hand and discard for both, to ignore order
 		qsort(G.hand[p], G.handCount[p], sizeof(int), comp);
@@ -94,7 +94,7 @@ printf ("TESTING discardCard():\n");
 		qsort(pre.hand[p], pre.handCount[p], sizeof(int), comp);
 		qsort(pre.discard[p], pre.discardCount[p], sizeof(int), comp);
 
-		failures = checkHandAndDiscard(&G, p, handCount,  hand,  discardCount,  discard);
+		failures = checkHandAndDiscard(&G, p, pre.handCount[p],  pre.hand[p],  pre.discardCount[p],  pre.discard[p]);
 		testCount += 4;
 		
 	//copy pre gamestate
