@@ -36,12 +36,31 @@ public class UrlValidatorTest extends TestCase {
       super(testName);
    }
 
-   
+   private void manualTestHelper(String url, boolean expected) {
+	   
+	   UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
+	   
+	   boolean result = urlVal.isValid(url);
+	   
+	   if ( result != expected) {
+		   System.out.println( "Fault found. UrlValidator returned " + result + " for " + url + " expected " + expected);
+	   }
+   }
    
    public void testManualTest()
    {
 	   UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
-	   System.out.println(urlVal.isValid("http://www.amazon.com"));
+	   
+	   manualTestHelper("http://www.amazon.com", true);
+	   
+	   manualTestHelper("abc://username:password@example.com:123/path/data?key=value&key2=value2#fragid1", true);
+	   
+	   manualTestHelper("http://www.home.com", true);
+	   manualTestHelper("https://www.home.com", true);
+	   manualTestHelper("http://www.home.io", true);
+	   manualTestHelper("https://andrius:password@home.com", true);
+	   manualTestHelper("http://www.home.com:1234", true);
+	   manualTestHelper("http://0.0.0.0:80/test1?action=view", true);
 	   
 	   
    }
