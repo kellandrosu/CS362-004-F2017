@@ -1,0 +1,90 @@
+
+BUG 1
+	Smithy Effect Not Adding Card to Played Card Array
+
+	Description:
+	Smithy Card is not added to gameState.playedCards[] and gameState.playedCardCount is not incremented when cardEffect() is called on smithy.
+
+	Steps to Reproduce:
+	1. 	Create gamestate with 2 players, seed = 1000 and the following kingdom card array: {adventurer, gardens, embargo, village, minion, mine, cutpurse, sea_hag, tribute, smithy};\
+	2. 	create 	int bonus = 0
+	3. 	set 	G.whoseTurn = 0
+	4.	set 	G.handCount[0] = 1;
+	5.	set 	G.hand[0][0] = smithy;
+	6. call 	cardEffect( smithy,  0, 0, 0, &G,  0, &bonus);
+
+	Expected Result:
+	G.playedCardCount should equal 1
+	G.playedCards[0] should equal smithy enum
+
+	Actual result:
+	G.playedCards[0] equals 0
+	G.playedCards[0] equals 0
+
+
+Bug 2
+	Adventurer Effect Not Adding Card to Played Card Array
+
+	Description:
+	Adventurer Card is not added to gameState.playedCards[] and gameState.playedCardCount is not incremented when cardEffect() is called on adventurer.
+
+	Steps to Reproduce:
+	1. 	Create gamestate with 2 players, seed = 1000 and the following kingdom card array: {adventurer, gardens, embargo, village, minion, mine, cutpurse, sea_hag, tribute, smithy};\
+	2. 	create 	int bonus = 0
+	3. 	set 	G.whoseTurn = 0
+	4.	set 	G.handCount[0] = 1;
+	5.	set 	G.hand[0][0] = adventurer;
+	6. call 	cardEffect( adventurer,  0, 0, 0, &G,  0, &bonus);
+
+	Expected Result:
+	G.playedCardCount should equal 1
+	G.playedCards[0] should equal adventurer enum
+
+	Actual result:
+	G.playedCards[0] equals 0
+	G.playedCards[0] equals 0
+
+
+BUG 3
+	Adventurer Effect Not Removing Adventurer Card from Hand
+
+	Description:
+	Adventurer Card is not removed from hand when adventurer is played.
+
+	Steps to Reproduce:
+	1. 	Create gamestate with 2 players, seed = 1000 and the following kingdom card array: {adventurer, gardens, embargo, village, minion, mine, cutpurse, sea_hag, tribute, smithy};\
+	2. 	create 	int bonus = 0
+	3. 	set 	G.whoseTurn = 0
+	4.	set 	G.hand[0][0] = adventurer;
+	5. 	call 	cardEffect( adventurer,  0, 0, 0, &G,  0, &bonus);
+
+	Expected Result
+	handCount[0] should equal 7
+	hand[0] array should equal [4, 1, 4, 4, 4, 4]
+
+	Actual Result
+	handCount[0] equals 7
+	hand[0] array equals [7, 4, 1, 4, 4, 4, 4]
+
+BUG 4
+	treasure_map Effect not trashing card when played without additional treasure_map in hand
+
+	Description:
+	treasure_map card should always be trashed when played, even if there is not another treasure_map card in the player's hand.
+
+	Steps to Reproduce:
+	1. 	Create gamestate with 2 players, seed = 1000 and the following kingdom card array: {treasure_map, gardens, embargo, village, minion, mine, cutpurse, sea_hag, tribute, smithy};\
+	2. 	create 	int bonus = 0
+	3. 	set 	G.whoseTurn = 0
+	4.	set 	G.hand[0][0] = treasure_map;
+	5. 	call 	cardEffect( treasure_map,  0, 0, 0, &G,  0, &bonus);
+
+	Expected Result
+	handCount[0] should equal 4
+	hand[0] array should equal [4, 1, 4, 4]
+
+	Actual Result
+	handCount[0] equals 5
+	hand[0] array equals [26, 4, 1, 4, 4]
+
+
