@@ -13,7 +13,7 @@
 #include "rngs.h"
 
 #ifndef NOISY_TEST
-	#define NOISY_TEST 2 //set to 0 for summary, 1 to print relevent state, 2 to print full state failures
+	#define NOISY_TEST 1 //set to 0 for summary, 1 to print relevent state, 2 to print full state failures
 #endif
 #ifndef NUM_TESTS 
 	#define NUM_TESTS 1000
