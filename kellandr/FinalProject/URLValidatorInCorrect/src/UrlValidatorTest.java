@@ -97,10 +97,22 @@ public class UrlValidatorTest extends TestCase {
    public void testIsValid()
    {
 	   
-	   //partition arrays pair-values
-	   		//scheme
-	   		//hostname or IP address
-	   		//port
+	   ResultPair[] schemeTest={new ResultPair("http://",true),
+			 	   new ResultPair("h5tp://",false),
+			           new ResultPair("",true),
+			   	   new ResultPair("http:/",false),
+			   	   new ResultPair("http//",false)};
+	   ResultPair[] hostTest={new ResultPair("256.256.256.256", false), 
+			   	  new ResultPair("100.100.100.100",true),
+			   	  new ResultPair("www.amazon.com",true),
+			   	  new ResultPair("www.amazon.c0m",false),
+			   	  new ResultPair("506.com",true),
+			   	  new ResultPair("",false)};
+	   ResultPair[] portTest={new ResultPair(":1a1", false),
+			   	  new ResultPair(":1000",true),
+			   	  new ResultPair(":-50",false),
+			   	  new ResultPair(":65535",true),
+			   	  new ResultPair(":70000",false)};
 	   
 	   		//path / filename
 	   		//query
