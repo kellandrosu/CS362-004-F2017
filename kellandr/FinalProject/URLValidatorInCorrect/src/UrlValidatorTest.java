@@ -99,7 +99,7 @@ public class UrlValidatorTest extends TestCase {
 	   
 	   ResultPair[] schemeTest={new ResultPair("http://",true),
 			 	   new ResultPair("h5tp://",false),
-			           new ResultPair("",true),
+			       new ResultPair("",true),
 			   	   new ResultPair("http:/",false),
 			   	   new ResultPair("http//",false)};
 	   ResultPair[] hostTest={new ResultPair("256.256.256.256", false), 
@@ -114,9 +114,27 @@ public class UrlValidatorTest extends TestCase {
 			   	  new ResultPair(":65535",true),
 			   	  new ResultPair(":70000",false)};
 	   
-	   		//path / filename
-	   		//query
+	   ResultPair[] pathTest = {
+			   new ResultPair("", true),
+			   new ResultPair("/", true),
+			   new ResultPair("/home/index.html", true),
+			   new ResultPair("something/", false),
+			   new ResultPair("/500/subpath/anothersubpath/", true),
+			   new ResultPair("/../home", false)
+	   };
+	   
+	   ResultPair[] queryTest = {
+			   new ResultPair("", true),
+			   new ResultPair("?q=couches&oq=couches", true),
+			   new ResultPair("?face=emoji;name=poop", true)
+	   };
+	   		
 	   		//fragment identifier
+	   ResultPair[] fragmentTest = {
+			   new ResultPair("", true),
+			   new ResultPair("#id1", true),
+			   new ResultPair("#id1#id2", false)
+	   };
 	   
 	   //function to loop through arrays and combine elements
 	   		//concatenates each partition element and &&'s boolean
