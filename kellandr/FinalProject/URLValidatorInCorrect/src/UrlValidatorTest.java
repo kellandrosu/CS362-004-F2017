@@ -58,12 +58,13 @@ public class UrlValidatorTest extends TestCase {
 	   
 	   if (result != expected) {
 		   System.out.println( "Fault found. UrlValidator returned " + result + " for " + url + " expected " + expected );
+		   return false;
 	   } 
 	   //else {
 	   //   System.out.println( "Pass: " + result + " for " + url + " expected " + expected );
 	   //}
 	   
-	   return result;
+	   return true;
    }
    
    public void testManualTest(){
@@ -157,7 +158,7 @@ ResultPair[] hostTest={
 	   	  new ResultPair("100.100.100.100",true),
 	   	  new ResultPair("www.amazon.com",true),
 	   	  new ResultPair("www.amazon.c0m",false),
-	   	  new ResultPair("www.506.com",true),
+	   	  new ResultPair("506.com",true),
 	   	  new ResultPair("",false)};
 ResultPair[] portTest={
 		  new ResultPair("",true),
