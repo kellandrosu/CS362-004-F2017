@@ -29,8 +29,8 @@ import junit.framework.TestCase;
  */
 public class UrlValidatorTest extends TestCase {
 
-   private boolean printStatus = false;
-   private boolean printIndex = false;//print index that indicates current scheme,host,port,path, query test were using.
+   //private boolean printStatus = false;
+   //private boolean printIndex = false;//print index that indicates current scheme,host,port,path, query test were using.
 
    public UrlValidatorTest(String testName) {
       super(testName);
@@ -42,15 +42,32 @@ public class UrlValidatorTest extends TestCase {
 	   
 	   boolean result = urlVal.isValid(url);
 	   
-	   if ( result != expected) {
+	   //if ( result != expected) {
+		   //System.out.println( "Fault found. UrlValidator returned " + result + " for " + url + " expected " + expected );
+	   //}
+	   if (result == true && expected == false) {
 		   System.out.println( "Fault found. UrlValidator returned " + result + " for " + url + " expected " + expected );
 	   }
    }
    
-   
-   public void testManualTest()
-   {
+   private boolean unitTestHelper(String url, boolean expected) {
+	   
 	   UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
+	   
+	   boolean result = urlVal.isValid(url);
+	   
+	   if (result != expected) {
+		   System.out.println( "Fault found. UrlValidator returned " + result + " for " + url + " expected " + expected );
+	   } 
+	   //else {
+	   //   System.out.println( "Pass: " + result + " for " + url + " expected " + expected );
+	   //}
+	   
+	   return result;
+   }
+   
+   public void testManualTest(){
+	   //UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
 	   
 	   manualTestHelper("http://www.home.com", true);
 	   
@@ -83,75 +100,95 @@ public class UrlValidatorTest extends TestCase {
 	   manualTestHelper("http://www.home.com:-1", false);
    }
    
-   
-   public void testYourFirstPartition()
-   {
-	   
-   }
-   
-   public void testYourSecondPartition(){
-	   
-   }
-   
-   
+      
    public void testIsValid()
-   {
+   { 
+	   int tested = 0;
+	   int failed = 0;
 	   
-	   ResultPair[] schemeTest={new ResultPair("http://",true),
-			 	   new ResultPair("h5tp://",false),
-			       new ResultPair("",true),
-			   	   new ResultPair("http:/",false),
-			   	   new ResultPair("http//",false)};
-	   ResultPair[] hostTest={new ResultPair("256.256.256.256", false), 
-			   	  new ResultPair("100.100.100.100",true),
-			   	  new ResultPair("www.amazon.com",true),
-			   	  new ResultPair("www.amazon.c0m",false),
-			   	  new ResultPair("506.com",true),
-			   	  new ResultPair("",false)};
-	   ResultPair[] portTest={new ResultPair(":1a1", false),
-			   	  new ResultPair(":1000",true),
-			   	  new ResultPair(":-50",false),
-			   	  new ResultPair(":65535",true),
-			   	  new ResultPair(":70000",false)};
-	   
-	   ResultPair[] pathTest = {
-			   new ResultPair("", true),
-			   new ResultPair("/", true),
-			   new ResultPair("/home/index.html", true),
-			   new ResultPair("something/", false),
-			   new ResultPair("/500/subpath/anothersubpath/", true),
-			   new ResultPair("/../home", false)
-	   };
-	   
-	   ResultPair[] queryTest = {
-			   new ResultPair("", true),
-			   new ResultPair("?q=couches&oq=couches", true),
-			   new ResultPair("?face=emoji;name=poop", true)
-	   };
-	   		
-	   		//fragment identifier
-	   ResultPair[] fragmentTest = {
-			   new ResultPair("", true),
-			   new ResultPair("#id1", true),
-			   new ResultPair("#id1#id2", false)
-	   };
-	   
-	   //function to loop through arrays and combine elements
-	   		//concatenates each partition element and &&'s boolean
-	   
-	   
-   }
+	   for (int schemeIndex = 0; schemeIndex < schemeTest.length; schemeIndex++) { 
+    	  for (int hostIndex = 0; hostIndex < hostTest.length; hostIndex++) { 
+        	  for (int portIndex = 0; portIndex < portTest.length; portIndex++) { 
+            	  for (int pathIndex = 0; pathIndex < pathTest.length; pathIndex++) { 
+                	  for (int queryIndex = 0; queryIndex < queryTest.length; queryIndex++) { 
+                    	  for (int fragmentIndex = 0; fragmentIndex < fragmentTest.length; fragmentIndex++) { 
+                    	     boolean expected = true;
+                    	     
+                 	         expected &= schemeTest[schemeIndex].valid;
+                 	         expected &= hostTest[hostIndex].valid;
+                 	         expected &= portTest[portIndex].valid;
+                 	         expected &= pathTest[pathIndex].valid;
+                 	         expected &= queryTest[queryIndex].valid;
+                 	         expected &= fragmentTest[fragmentIndex].valid;
+                 	         //System.out.println(schemeTest[schemeIndex].item + " " + schemeIndex + " " + expected);
+
+                 	         StringBuffer testBuffer = new StringBuffer();
+                 	         testBuffer.append(schemeTest[schemeIndex].item);
+                 	         testBuffer.append(hostTest[hostIndex].item);
+                 	         testBuffer.append(portTest[portIndex].item);
+                 	         testBuffer.append(pathTest[pathIndex].item);
+                 	         testBuffer.append(queryTest[queryIndex].item);
+                 	         testBuffer.append(fragmentTest[fragmentIndex].item);
+                 	      
+                 	         String url = testBuffer.toString();
+                 	         //System.out.println(url);
+                 	         if( unitTestHelper(url, expected) == false ) {
+                 	        	 	failed++;
+                 	         }
+                 	         tested++;
+                    	  }
+                	  }
+            	  }
+        	  }
+    	  }	  
+      }  
+//	   System.out.println("Tested " + tested + " URLs expected " + (schemeTest.length*hostTest.length*portTest.length*pathTest.length*queryTest.length*fragmentTest.length));
+	   System.out.println(failed + " Failures out of " + tested + " tests");
+  }
+
+ ResultPair[] schemeTest={
+		   new ResultPair("http://",true),
+	 	   new ResultPair("h5tp://",false),
+	       new ResultPair("",true),
+	   	   new ResultPair("http:/",false),
+	   	   new ResultPair("http//",false)};
+ResultPair[] hostTest={
+		  new ResultPair("256.256.256.256", false), 
+	   	  new ResultPair("100.100.100.100",true),
+	   	  new ResultPair("www.amazon.com",true),
+	   	  new ResultPair("www.amazon.c0m",false),
+	   	  new ResultPair("www.506.com",true),
+	   	  new ResultPair("",false)};
+ResultPair[] portTest={
+		  new ResultPair("",true),
+		  new ResultPair(":1a1", false),
+	   	  new ResultPair(":1000",true),
+	   	  new ResultPair(":-50",false),
+	   	  new ResultPair(":65535",true),
+	   	  new ResultPair(":70000",false)};
+
+ResultPair[] pathTest = {
+	   new ResultPair("", true),
+	   new ResultPair("/", true),
+	   new ResultPair("/home/index.html", true),
+	   new ResultPair("something/", false),
+	   new ResultPair("/500/subpath/anothersubpath/", true),
+	   new ResultPair("/../home", false)
+};
+
+ResultPair[] queryTest = {
+	   new ResultPair("", true),
+	   new ResultPair("?q=couches&oq=couches", true),
+	   new ResultPair("?face=emoji;name=poop", true)
+};
+		
+		//fragment identifier
+ResultPair[] fragmentTest = {
+	   new ResultPair("", true),
+	   new ResultPair("#id1", true),
+	   new ResultPair("#id1#id2", false)
+};
    
-   public void testAnyOtherUnitTest()
-   {
-	   
-   }
-   /**
-    * Create set of tests by taking the testUrlXXX arrays and
-    * running through all possible permutations of their combinations.
-    *
-    * @param testObjects Used to create a url.
-    */
    
 
 }
